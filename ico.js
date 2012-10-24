@@ -550,7 +550,8 @@ Helpers.extend(Ico.BaseGraph.prototype, {
       this.drawMeanLine(this.normaliseData(this.flat_data));
     }
 
-    this.drawAxis();
+    
+    this.drawAxis(this.options.show_vertical_labels, this.options.show_horizontal_labels);
     
     if (this.options.show_vertical_labels) {
       this.drawVerticalLabels();
@@ -698,14 +699,18 @@ Helpers.extend(Ico.BaseGraph.prototype, {
     this.paper.path(pathString).attr(this.options.meanline);
   },
 
-  drawAxis: function() {
+  drawAxis: function(drawVertical, drawHorizontal) {
     var pathString = '';
 
-    pathString += 'M' + (this.x_padding_left - 1) + ',' + (this.options.height - this.y_padding_bottom);
-    pathString += 'L' + (this.graph_width + this.x_padding_left) + ',' + (this.options.height - this.y_padding_bottom); 
-    pathString += 'M' + (this.x_padding_left - 1) + ',' + (this.options.height - this.y_padding_bottom); 
-    pathString += 'L' + (this.x_padding_left - 1) + ',' + (this.y_padding_top);
-
+    if(drawHorizontal) {
+	    pathString += 'M' + (this.x_padding_left - 1) + ',' + (this.options.height - this.y_padding_bottom);
+	    pathString += 'L' + (this.graph_width + this.x_padding_left) + ',' + (this.options.height - this.y_padding_bottom); 
+	}
+	
+	if (drawVertical) {
+    	pathString += 'M' + (this.x_padding_left - 1) + ',' + (this.options.height - this.y_padding_bottom); 
+    	pathString += 'L' + (this.x_padding_left - 1) + ',' + (this.y_padding_top);
+    }
     this.paper.path(pathString).attr({ stroke: this.options.label_colour });
   },
   
