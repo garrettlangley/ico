@@ -516,15 +516,20 @@ Helpers.extend(Ico.BaseGraph.prototype, {
 
   paddingLeftOffset: function() {
     /* Find the longest label and multiply it by the font size */
-    var data = this.roundValues(this.flat_data, 2),
-        longest_label_length = 0;
+    if (! this.options.show_vertical_labels ) {
+	    return 0;
+    } else {
 
-    longest_label_length = data.sort(function(a, b) { 
-      return a.toString().length < b.toString().length;
-    })[0].toString().length;
-
-    longest_label_length = longest_label_length > 2 ? longest_label_length - 1 : longest_label_length;
-    return 10 + (longest_label_length * this.options.font_size);
+	    var data = this.roundValues(this.flat_data, 2),
+	        longest_label_length = 0;
+	
+	    longest_label_length = data.sort(function(a, b) { 
+	      return a.toString().length < b.toString().length;
+	    })[0].toString().length;
+	
+	    longest_label_length = longest_label_length > 2 ? longest_label_length - 1 : longest_label_length;
+	    return 10 + (longest_label_length * this.options.font_size);
+	}
   },
   
   paddingBottomOffset: function() {
