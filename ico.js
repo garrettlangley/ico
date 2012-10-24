@@ -340,7 +340,7 @@ Helpers.extend(Ico.BaseGraph.prototype, {
     this.options = {
       width:                  parseInt(getStyle(element, 'width'), 10),
       height:                 parseInt(getStyle(element, 'height'), 10),
-      plot_padding:           10,                                    // Padding for the graph line/bar plots
+      plot_padding:           0,                                    // Padding for the graph line/bar plots
       font_size:              10,                                    // Label font size
       show_horizontal_labels: true,
       show_vertical_labels:   true,
@@ -353,13 +353,14 @@ Helpers.extend(Ico.BaseGraph.prototype, {
       grid_colour:            '#ccc',
       y_padding_top:          20,
       draw:                   true,
-      bar_labels:             false                                  // Display values on the top of bars
+      bar_labels:             false,                                  // Display values on the top of bars
+      data_labels:			  false
     };
 
     Helpers.extend(this.options, this.chartDefaults() || {});
     Helpers.extend(this.options, options);
 
-    this.font_options = { 'font': this.options.font_size + 'px "Arial"', stroke: 'none', fill: '#000' };
+    this.font_options = { 'font': this.options.font_size + 'px "Arial"', stroke: 'none', fill: '#666' };
     this.normaliser = new Ico.Normaliser(this.flat_data, this.normaliserOptions());
     this.label_step = options.label_step || this.normaliser.step;
 
@@ -915,7 +916,7 @@ Helpers.extend(Ico.BarGraph.prototype, {
     font_options['text-anchor'] = 'center';
 
     for (i = 0; i < length; i++) {
-      label = this.roundValue(this.flat_data[i], 2).toString();
+      label = (this.options.data_labels) ? this.options.data_labels[i].toString() : this.roundValue(this.flat_data[i], 2).toString();
       x = this.plottedCoords[i][0];
       y = this.roundValue(this.plottedCoords[i][1], 0);
       this.paper.text(x, y - this.options.font_size, label).attr(font_options).toFront();
